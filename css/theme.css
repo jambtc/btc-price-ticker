@@ -1,0 +1,39 @@
+html, body {
+		height:100%;
+		width:100%;
+		margin:0;
+		padding:0;
+	}
+
+	body {
+		background-color: #100e17;
+		color: #2a921e;
+		font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+		width: 100%
+	}
+	.mainHolder {
+		width: 100%;
+		font-size: 14vw;
+		text-align: center;
+	}
+	.lowPrice {
+		color: #e52e71;
+	}
+	.highPrice {
+		color: #50e3c2;
+	}
+	.progress-bar {
+	  width:0%;
+	  height:10px;
+	  background:linear-gradient(to right,rgb(76,217,105),rgb(90,200,250),rgb(0,132,255),rgb(52,170,220),rgb(88,86,217),rgb(255,45,83));
+	  margin-top:0px;
+	  background-size:100% 5px;
+	  animation:loading 10s ease-in-out forwards;
+	}
+
+
+	@keyframes loading {
+	  to {
+		width:100%;
+	  }
+	}
