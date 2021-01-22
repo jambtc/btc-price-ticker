@@ -71,7 +71,7 @@ ws.onmessage = function (evt) {
 				  //for(i=0;i<2;i++) {
 					  $("#priceHolder").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
 				  //}
-				document.getElementsByTagName('title')[0].innerHTML = "BTC &#9660; "+response.data.price.toFixed(2)+" €";
+				document.getElementsByTagName('title')[0].innerHTML = "BTC &#9660; "+last.toFixed(2)+" €";
 			} else {
         //for(i=0;i<2;i++) {
           $("#priceHolder").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
