@@ -1,6 +1,6 @@
 $("#timeStart").html(new Date().toLocaleString());
 
-var it = 0;
+var last  = 0;
 var price = 0;
 var allResults = new Array(0);
 var increase = 0;
@@ -31,10 +31,21 @@ ws.onmessage = function (evt) {
   response = JSON.parse(evt.data);
   switch (response.event) {
     case 'trade': {
-      $("#priceHolder").text(response.data.price);
-      if (parseFloat(response.data.price) > parseFloat(price)) {
-				console.log("LOW:::New Price-"+response.data.price+" > Old price-"+price);
-				increase = parseFloat(response.data.price)-parseFloat(price);
+      last = response.data.price;
+      type = response.data.type;
+      $("#priceHolder").text(last);
+      
+      if (type == 0) {
+        $("#priceHolder").removeClass();
+				$("#priceHolder").addClass("highPrice");
+      } else {
+        $("#priceHolder").removeClass();
+				$("#priceHolder").addClass("lowPrice");
+      }
+      
+      if (parseFloat(last) > parseFloat(price)) {
+				console.log("LOW:::New Price-"+last+" > Old price-"+price);
+				increase = parseFloat(last)-parseFloat(price);
 				percentage = (parseFloat(increase)/parseFloat(price))*100;
 
 				$("#percentage").removeClass();
@@ -44,27 +55,27 @@ ws.onmessage = function (evt) {
 					$("#percentage").html("&#9650; "+percentage.toFixed(2)+"%");
 				}
 
-				for(i=0;i<2;i++) {
-				  $("#percentage").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
-				}
-				document.getElementsByTagName('title')[0].innerHTML = "BTC &#9650; "+response.data.price.toFixed(2)+"%";
-			} else if(parseFloat(response.data.price) < parseFloat(price)) {
+				//for(i=0;i<2;i++) {
+				  $("#priceHolder").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
+			//	}
+				document.getElementsByTagName('title')[0].innerHTML = "BTC &#9650; "+last.toFixed(2)+" €";
+			} else if(parseFloat(last) < parseFloat(price)) {
 
-				console.log("HIGH:::New Price-"+response.data.price+" < Old price-"+price);
-				decrease = parseFloat(price)-parseFloat(response.data.price);
+				console.log("HIGH:::New Price-"+last+" < Old price-"+price);
+				decrease = parseFloat(price)-parseFloat(last);
 				percentage = (parseFloat(decrease)/parseFloat(price))*100;
 
 				$("#percentage").removeClass();
 				$("#percentage").addClass("lowPrice");
 				$("#percentage").html("&#9660; "+percentage.toFixed(2)+"%");
-				  for(i=0;i<2;i++) {
-					  $("#percentage").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
-				  }
-				document.getElementsByTagName('title')[0].innerHTML = "BTC &#9660; "+response.data.price.toFixed(2)+"%";
+				  //for(i=0;i<2;i++) {
+					  $("#priceHolder").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
+				  //}
+				document.getElementsByTagName('title')[0].innerHTML = "BTC &#9660; "+response.data.price.toFixed(2)+" €";
 			} else {
-        for(i=0;i<2;i++) {
-          $("#percentage").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
-        }
+        //for(i=0;i<2;i++) {
+          $("#priceHolder").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
+        //}
 			}
 
       // reset progress bar animation
@@ -73,7 +84,7 @@ ws.onmessage = function (evt) {
         $body.css('animation', animation); //set it back
       });
 
-			price = parseFloat(response.data.price);
+			price = parseFloat(last);
 			allResults.push(parseFloat(price).toFixed(2));
 			$('.sparkline').sparkline(allResults, {width: '90%', height: '80', fillColor: '#201c29', lineColor: '#1db954'});
 			$("#timeLast").html(new Date().toLocaleString());
