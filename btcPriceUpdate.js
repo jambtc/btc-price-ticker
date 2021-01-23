@@ -1,19 +1,15 @@
 $("#timeStart").html(new Date().toLocaleString());
 
+var first = 0;
 var last  = 0;
 var price = 0;
+var amount = 0;
 var allResults = new Array(0);
 var increase = 0;
 var decrease = 0;
 var percentage = 0;
+var percentageAll = 0;
 var animation  = 'loading 10s ease-in-out forwards';
-
-// var el = $("#progress"),
-// newone = el.clone(true);
-// el.before(newone);
-// $(".progress-bar:last").remove();
-
-
 
 var ws = new WebSocket('wss://ws.bitstamp.net'); // New websocket v. 2 for Bitstamp
 var subscription = {
@@ -33,16 +29,22 @@ ws.onmessage = function (evt) {
     case 'trade': {
       last = response.data.price;
       type = response.data.type;
-      $("#priceHolder").text(last);
-      
+      amount = response.data.amount;
+      if (first == 0) first = last;
+      percentageAll = (parseFloat(last-first)/parseFloat(first))*100;
+
+      $("#priceHolder").text("€ "+last);
+      $("#orderHolder").html('<i class="fab fa-bitcoin"></i> '+amount+' &#9654 € '+parseFloat(amount*last).toFixed(2));
+      $("#percentageAll").html((percentageAll>0 ? "&#9650; " : "&#9660; ")+percentageAll.toFixed(2)+"%");
+
       if (type == 0) {
         $("#priceHolder").removeClass();
-				$("#priceHolder").addClass("highPrice");
+				$("#priceHolder").addClass("buy");
       } else {
         $("#priceHolder").removeClass();
-				$("#priceHolder").addClass("lowPrice");
+				$("#priceHolder").addClass("sell");
       }
-      
+
       if (parseFloat(last) > parseFloat(price)) {
 				console.log("LOW:::New Price-"+last+" > Old price-"+price);
 				increase = parseFloat(last)-parseFloat(price);
@@ -54,10 +56,7 @@ ws.onmessage = function (evt) {
 				if(parseInt(percentage.toFixed(2)) < 101) {
 					$("#percentage").html("&#9650; "+percentage.toFixed(2)+"%");
 				}
-
-				//for(i=0;i<2;i++) {
-				  $("#priceHolder").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
-			//	}
+			  $("#priceHolder").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
 				document.getElementsByTagName('title')[0].innerHTML = "BTC &#9650; "+last.toFixed(2)+" €";
 			} else if(parseFloat(last) < parseFloat(price)) {
 
@@ -68,14 +67,11 @@ ws.onmessage = function (evt) {
 				$("#percentage").removeClass();
 				$("#percentage").addClass("lowPrice");
 				$("#percentage").html("&#9660; "+percentage.toFixed(2)+"%");
-				  //for(i=0;i<2;i++) {
-					  $("#priceHolder").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
-				  //}
+
+				$("#priceHolder").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
 				document.getElementsByTagName('title')[0].innerHTML = "BTC &#9660; "+last.toFixed(2)+" €";
 			} else {
-        //for(i=0;i<2;i++) {
           $("#priceHolder").fadeTo('fast', 0.2).fadeTo('fast', 1.0);
-        //}
 			}
 
       // reset progress bar animation
