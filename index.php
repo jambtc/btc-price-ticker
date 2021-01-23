@@ -30,6 +30,9 @@
 		<span id="maxValTime">0</span>
 	</div>
 </div>
+<div style="width:100%; height:14px; display:block; font-size: 14px; color: gray; text-align: center;">
+  Made with ❤️ by <b>sexjam</b> ;^)
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="jquery.sparkline.min.js"></script>
