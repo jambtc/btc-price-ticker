@@ -16,6 +16,12 @@ body {
 	font-size: 7vw;
 	text-align: center;
 }
+#orderHolder{
+	overflow-y:hidden;
+    position:relative;
+    height: 150px;
+	margin: 15px;
+}
 .lowPrice {
 	color: #e52e71;
 }
