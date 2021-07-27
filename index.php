@@ -8,8 +8,11 @@
 <body>
 <div id="progress" class="progress-bar"></div>
 <div class="mainHolder">
-	<span id="priceHolder" ></span></br>
-	<div id="orderHolder" style="font-size:15px; color: #fff;"></div>
+    <div style="margin-bottom:-100px;">
+        <p class="bitcoin"><i class="fab fa-bitcoin"></i></p>
+	    <span id="priceHolder"></span>
+    </div>
+    <div id="orderHolder" style="font-size:15px; color: #fff;"></div>
 	<div style="width:100%; height:80px; display:block;">
 		<span class="sparkline" style="width:100%; height:80px"></span>
 	</div>
@@ -36,8 +39,8 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="jquery.sparkline.min.js"></script>
-<script type="text/javascript" src="btcPriceUpdate.js"></script>
 <script type="text/javascript" src="custom.js"></script>
+<script type="text/javascript" src="btcPriceUpdate.js"></script>
 
 </body>
 </html>

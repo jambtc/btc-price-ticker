@@ -8,7 +8,7 @@ html, body {
 body {
 	background-color: #100e17;
 	color: #2a921e;
-	font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
+	font-family: system-ui, monospace, Gadget, sans-serif;
 	width: 100%
 }
 .mainHolder {
@@ -19,9 +19,20 @@ body {
 #orderHolder{
 	overflow-y:hidden;
     position:relative;
-    height: 150px;
+    height: 120px;
 	margin: 15px;
 }
+.orderBtcInline {
+	display: inline-block;
+	width: 80px;
+	text-align: left;
+}
+.orderCoinInline {
+	display: inline-block;
+	width: 70px;
+	text-align: right;
+}
+
 .lowPrice {
 	color: #e52e71;
 }
@@ -36,6 +47,15 @@ body {
 }
 .fa-bitcoin {
 	color: #f2a900;
+}
+.bitcoin {
+	margin: 0px;
+	padding: 0px;
+	text-align: left;
+}
+#priceHolder {
+	position: relative;
+	top:-100px;
 }
 .progress-bar {
   width:0%;
