@@ -149,3 +149,27 @@ a:link, a:visited, a:hover, a:active{
 	width:100%;
   }
 }
+
+
+.tradebook-header {
+	background-color: var(--tv-table-header-color);
+	border-bottom: 1px solid var(--tv-widget-border-light);
+	color: var(--tv-table-header-text-color);
+	display: flex;
+	font-size: 12px;
+	justify-content:  center;
+	padding: .25rem .5rem;
+	text-align: center;
+}
+
+.tradebook-header__amount {
+	padding-right: 50px;
+}
+
+.tradebook-header__price {
+	padding-right: 25px;
+}
+
+.tradebook-header__value {
+	padding-left: .5rem;
+}
