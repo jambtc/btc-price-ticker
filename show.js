@@ -54,7 +54,7 @@ var show = {
             + arrow[type] + ' ' + coin 
             + ' <span>' + last + '</span>'
             + ' <span class="orderCoinInline">' + parseFloat(amount * last).toFixed(2) + '</span>';
-            console.log('[order]', order);
+            // console.log('[order]', order);
 
             $("#orderHolder").prepend('<div id="order_' + orderid + '">' + order + '</div>');
             $("#order_" + orderid).addClass(divClass[type]);
@@ -85,7 +85,7 @@ var show = {
         $("#minValTime").html(coin + ' ' + Math.min.apply(Math, allResults));
         $("#maxValTime").text(coin + ' ' + Math.max.apply(Math, allResults));
 
-        $("#arrayLength").text(allResults.length);
+        $("#arrayLength").text(orderid);
 
     },
    
