@@ -1,0 +1,157 @@
+html, body {
+	height:100%;
+	width:100%;
+	margin:0;
+	padding:0;
+}
+
+body {
+	background-color: #100e17;
+	color: #2a921e;
+	font-family: system-ui, monospace, Gadget, sans-serif;
+	width: 100%
+}
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.left-div {
+    flex: 7;
+}
+
+.right-div {
+    flex: 3;
+    background-color: #e0e0e0;
+}
+.mainHolder {
+	width: 100%;
+	font-size: 6vw;
+	text-align: center;
+}
+#mainContainer {
+  display: flex;                  /* establish flex container */
+  flex-direction: row;            /* default value; can be omitted */
+  flex-wrap: nowrap;              /* default value; can be omitted */
+  justify-content: space-between; /* switched from default (flex-start, see below) */
+  /* background-color: lightyellow; */
+}
+#mainContainer > div {
+  width: 33%;
+  height: 80px;
+  /* border: 1px dashed red; */
+}
+#orderHolder{
+	overflow-y:hidden;
+    position:relative;
+    height: 120px;
+	margin: 15px;
+}
+
+
+.lowPrice {
+	color: #e52e71;
+}
+.highPrice {
+	color: #50e3c2;
+}
+.sell {
+	color: red;
+}
+.buy {
+	color: green;
+}
+.fa-bitcoin {
+	color: #f2a900;
+}
+.bitcoin {
+	margin: 0px;
+	padding: 0px;
+	text-align: left;
+}
+.row {
+	width:100%;
+	height:14px;
+	display:block;
+}
+.h-14 {
+	height: 14px;
+}
+.h-50 {
+	height: 50px;
+}
+.h-80 {
+	height: 80px;
+}
+.w-100{
+	width: 100%;
+	display:block;
+}
+.f-14 {
+	font-size: 14px;
+}
+.f-15 {
+	font-size: 15px;
+}
+.f-16 {
+	font-size: 16px;
+}
+.f35 {
+	font-size: 3.5vw;
+}
+.gray {
+	color: gray;
+}
+.white {
+	color: #fff;
+}
+.yellow {
+	color: #ff0;
+}
+.bg-red{
+	background-color: red;
+}
+.center {
+	text-align: center;
+}
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix { display: inline-block; }
+.mt-1 {
+	margin-top:10px;
+}
+a:link, a:visited, a:hover, a:active{
+	color: aliceblue !important;
+}
+#priceHolder {
+	position: relative;
+	/* top:-100px; */
+}
+.progress-bar {
+  width:0%;
+  height:10px;
+  background:linear-gradient(to right,rgb(76,217,105),rgb(90,200,250),rgb(0,132,255),rgb(52,170,220),rgb(88,86,217),rgb(255,45,83));
+  margin-top:0px;
+  background-size:100% 5px;
+  animation:loading 10s ease-in-out forwards;
+}
+
+@keyframes loading {
+  to {
+	width:100%;
+  }
+}
+
+

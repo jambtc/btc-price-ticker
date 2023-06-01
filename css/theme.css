@@ -6,170 +6,87 @@ html, body {
 }
 
 body {
-	background-color: #100e17;
+	background-color: #212529;
 	color: #2a921e;
 	font-family: system-ui, monospace, Gadget, sans-serif;
 	width: 100%
 }
-.mainHolder {
-	width: 100%;
-	font-size: 6vw;
-	text-align: center;
+.container {
+    text-align: center;
 }
-#mainContainer {
-  display: flex;                  /* establish flex container */
-  flex-direction: row;            /* default value; can be omitted */
-  flex-wrap: nowrap;              /* default value; can be omitted */
-  justify-content: space-between; /* switched from default (flex-start, see below) */
-  /* background-color: lightyellow; */
+
+.container table {
+    margin: auto;
 }
-#mainContainer > div {
-  width: 33%;
-  height: 80px;
-  /* border: 1px dashed red; */
+
+.left-div {
+    
+    width: 60%;
+    float: left;
 }
-#orderHolder{
-	overflow-y:hidden;
-    position:relative;
-    height: 120px;
-	margin: 15px;
+
+.right-div {
+    
+    width: 40%;
+    float: right;
 }
-.orderBtcInline {
-	display: inline-block;
-	width: 80px;
-	text-align: left;
+
+.clear {
+    clear: both;
 }
-.orderCoinInline {
-	display: inline-block;
-	width: 70px;
-	text-align: right;
+
+.fa-xl {
+    color: #f2a900;
+    font-size: 6vw;
+}
+
+/** ORDERS */
+.scrollable {
+    overflow-y: hidden;
+    height: 200px;
 }
 
 .lowPrice {
-	color: #e52e71;
+    color: #e52e71;
 }
+
 .highPrice {
-	color: #50e3c2;
+    color: #50e3c2;
 }
+
 .sell {
-	color: red;
+    color: red;
 }
+
 .buy {
-	color: green;
+    color: green;
 }
-.fa-bitcoin {
-	color: #f2a900;
+
+.valueTd {
+    text-align: right;
 }
-.bitcoin {
-	margin: 0px;
-	padding: 0px;
-	text-align: left;
+.amountTd {
+    text-align: left;
 }
-.row {
-	width:100%;
-	height:14px;
-	display:block;
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    
 }
-.h-14 {
-	height: 14px;
-}
-.h-50 {
-	height: 50px;
-}
-.h-80 {
-	height: 80px;
-}
-.w-100{
-	width: 100%;
-	display:block;
-}
-.f-14 {
-	font-size: 14px;
-}
-.f-15 {
-	font-size: 15px;
-}
-.f-16 {
-	font-size: 16px;
-}
-.f35 {
-	font-size: 3.5vw;
-}
-.gray {
-	color: gray;
-}
-.white {
-	color: #fff;
-}
-.yellow {
-	color: #ff0;
-}
-.bg-red{
-	background-color: red;
-}
-.center {
-	text-align: center;
-}
-.left {
-	float: left;
-}
-.right {
-	float: right;
-}
-.clearfix:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: " ";
-  clear: both;
-  height: 0;
-}
-.clearfix { display: inline-block; }
-.mt-1 {
-	margin-top:10px;
-}
-a:link, a:visited, a:hover, a:active{
-	color: aliceblue !important;
-}
-#priceHolder {
-	position: relative;
-	/* top:-100px; */
-}
+
 .progress-bar {
-  width:0%;
-  height:10px;
-  background:linear-gradient(to right,rgb(76,217,105),rgb(90,200,250),rgb(0,132,255),rgb(52,170,220),rgb(88,86,217),rgb(255,45,83));
-  margin-top:0px;
-  background-size:100% 5px;
-  animation:loading 10s ease-in-out forwards;
+    width: 0%;
+    height: 10px;
+    background: linear-gradient(to right, rgb(3, 50, 94), rgb(163, 207, 228));
+    margin-top: 0px;
+    background-size: 100% 5px;
+    animation: loading 60s ease-in-out forwards;
 }
 
 @keyframes loading {
-  to {
-	width:100%;
-  }
-}
-
-
-.tradebook-header {
-	background-color: var(--tv-table-header-color);
-	border-bottom: 1px solid var(--tv-widget-border-light);
-	color: var(--tv-table-header-text-color);
-	display: flex;
-	font-size: 12px;
-	justify-content:  center;
-	padding: .25rem .5rem;
-	text-align: center;
-}
-
-.tradebook-header__amount {
-	padding-right: 50px;
-}
-
-.tradebook-header__price {
-	padding-right: 25px;
-}
-
-.tradebook-header__value {
-	padding-left: .5rem;
+    to {
+        width: 100%;
+    }
 }

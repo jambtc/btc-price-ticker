@@ -50,13 +50,13 @@ var show = {
 
         // manage orders
         if (typeof amount != 'undefined') {
-            var order = '<span class="orderBtcInline">' + amount + '</span> ' 
-            + arrow[type] + ' ' + coin 
-            + ' <span>' + last + '</span>'
-            + ' <span class="orderCoinInline">' + parseFloat(amount * last).toFixed(2) + '</span>';
+            var order = '<td class="amountTd"><i class="fab fa-bitcoin text-secondary"></i> ' + amount + '</td> ' 
+                + '<td>' + arrow[type] + '</td>'
+                + '<td>' + coin + ' ' + last + '</td>'
+                + '<td class="valueTd">' + parseFloat(amount * last).toFixed(2) + ' ' + coin +'</td>';
             // console.log('[order]', order);
 
-            $("#orderHolder").prepend('<div id="order_' + orderid + '">' + order + '</div>');
+            $("#orderHolder").prepend('<tr id="order_' + orderid + '">' + order + '</tr>');
             $("#order_" + orderid).addClass(divClass[type]);
             orderid++;
             // clean the DOM
@@ -76,11 +76,14 @@ var show = {
             price = parseFloat(last);
             allResults.push(parseFloat(price).toFixed(2));
         }
-        if (allResults.length > 999) {
+        if (allResults.length > 1000) {
             allResults.shift();
         }
 
-        $('.sparkline').sparkline(allResults, { width: '90%', height: '80', fillColor: '#201c29', lineColor: '#1db954' });
+        // nuova funzione che visualizzao i ROI sulla vendita/acquisto di btc
+        // aggiornaRoi(allResults);
+
+        $('.sparkline').sparkline(allResults, { width: '98%', height: '80', fillColor: '#201c29', lineColor: '#1db954' });
         $("#timeLast").html(new Date().toLocaleString());
         $("#minValTime").html(coin + ' ' + Math.min.apply(Math, allResults));
         $("#maxValTime").text(coin + ' ' + Math.max.apply(Math, allResults));
