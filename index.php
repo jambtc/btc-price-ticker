@@ -2,78 +2,93 @@
 <html lang="en">
 
 <head>
-    <title>BTC Price Show</title>
+    <meta charset="UTF-8">
+    <title>BTC Price Ticker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 + FontAwesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/2ae8ea64fe.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="css/theme.css" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="css/theme.css">
+
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAk/kA7vf/AACL/wArnvEAAZP5AP/9/gADk/kAAJL8AAiQ+QAAlvkAAo7/AAKS/AADlvkAAJH/ADGV4QACkf8AKp3sACyg7AAAlPcAAoz9AEOj6wD//f8AAJX9ACmX5QABkPsA//79AAaR+AAEj/4AAJL2AACR+QACif8A//v+AAOR+QAElfYA/v7+AP/+/gAElPkA///zAAGP/wAMjfwABZP8AA2R+QABl/EADYz/APX+/wAAlfcA//v/AP/+/wAJlfcAOKHsAAmS7wAFmewAAZH7ACCb7gAClfgAC5fyACyd6AAClPsAQqPnAP39+wAJlfAAOKDoAAyU8wAAjf8AAo3/AB2a8gAKk/YAC5P2AEmr6gD//P8A+///ADan5gAClfoA////AAqM8gA5mOcAAZ3sAC+Z7QD///cADpH9AP39/QAnlOMAQKXsAASS+wAPnO8AC5ftAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASUlJSRlHSDwtEzFQSUlJSUlJLAM0AAAAAAAEBlEVSUlJIkoAAAAPQzMAAAAAJCNJSVQAAAAASTJJAAAAAAAXSQUqAAAAAEkASQAcAAAAIVARAAAAAklJSUkiO0QAAAQ4CAAAAAANSScANkkAAAAAGwcAAAAAQElLPkkuAAAAABZCAAAAAApJSUkiAAsAAAA3UwAAAAA5ST8AACJMAAAAGBQAAAAASUkBTklJHQAAAE1GTwAACR5JDkkmVQAAACAiSVIAAAAAHyslAAAAAAA1SUlJEgAAAAAAAAAAAAApL0lJSUk9BwAAAAAAAAxBIklJSUlJSUU6KDAHGhBOSUlJSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=">
+
 </head>
 
 <body>
-    <div id="progress" class="progress-bar"></div>
-    <div class="mainHolder">
-        <div id="mainContainer">
-            <div><i class="fab fa-bitcoin"></i></div>
-            <div><span id="priceHolder"></span></div>
-            <div>
-                <select id="exchange_select">
-                    <option value="bitstamp">Bitstamp</option>
-                    <option value="bitfinex">Bitfinex</option>
-                </select>
+    <div class="container text-center p-1">
+        <div class="main-card shadow text-center">
+            <div class="row">
+                <div class="col-md-4">
+                    <h1><i class="fab fa-bitcoin text-warning"></i> BTC Price Ticker</h1>
+                    <h2 id="priceHolder" class="my-3">$0.00</h2>
+                </div>
+                <div class="col-md-6">
+                    <div id="tradeStream" class="trade-stream">
+                        <table class="trade-table w-100">
+                            <thead>
+                                <tr>
+                                    <th class="tradebook-header__direction"></th>
+                                    <th class="tradebook-header__amount">Amount</th>
+                                    <th class="tradebook-header__price">Price</th>
+                                    <th class="tradebook-header__value">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tradeRows"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-4">
+                        <label for="exchange_select" class="form-label">Select Exchange</label>
+                        <select id="exchange_select" class="form-select w-auto mx-auto">
+                            <option value="binance" selected>Binance</option>
+                            <option value="bitstamp">Bitstamp</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <canvas id="priceChart" class="w-100" style="height: 250px;"></canvas>
+
+
+            <div class="stats-section mt-2">
+                <div class="stats">
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-left"><strong>Trading Volume:</strong> <span id="volume">0 USD</span></div>
+                            <div class="text-left lowPrice"><strong>MIN:</strong> <span id="minVal">N/A</span></div>
+                        </div>
+                        <div class="col">
+                            <div class="text-right"><strong>24h Change:</strong> <span id="percentageChange">0%</span></div>
+                            <div class="text-right highPrice"><strong>MAX:</strong> <span id="maxVal">N/A</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="mt-4 small text-secondary">
+                Made with ❤️ by <strong>jambtc</strong><br>
+                <a href="https://github.com/jambtc/btc-price-ticker" target="_blank" class="text-light">
+                    <i class="fa fa-github"></i> Source Code
+                </a>
             </div>
         </div>
-        <!-- <div style="margin-bottom:-100px; background-color:yellow;">
-                <div class="bitcoin"><i class="fab fa-bitcoin"></i></div>
-        	    <div id="priceHolder"></div>
-                <div class="f-16 right">
-                    <select id="exchange_select">
-                        <option value="bitstamp">Bitstamp</option>
-                        <option value="bitfinex">Bitfinex</option>
-                    </select>
-                </div>
-            </div> -->
-        <div class="tradebook-header">
-            <span class="tradebook-header__amount">Amount</span> 
-            <span class="tradebook-header__price">Price</span>
-            <span class="tradebook-header__value">Value</span> 
-        </div>
-        <div id="orderHolder" class="f-15 white"></div>
-        <div class="w-100 h-80">
-            <span class="sparkline w-100 h-80"></span>
-        </div>
-        <div class="row f-14 white h-14">
-            <div id="timeStart" class="h-14 f-14 left"></div>
-            <div id="timeLast" class="h-14 f-14 right"></div>
-        </div>
-        <div class="row yellow h-50">
-            <span id="percentageAll" class="h-14 left "></span>
-            <span id="percentage" class="h-14 right "></span>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-    <div class="row f-14 h-14 white">
-        <div class="lowPrice left h-14 f35 center">MIN<br />
-            <span id="minValTime">0</span>
-        </div>
-        <div class="highPrice right h-14 f35 center">MAX<br />
-            <span id="maxValTime">0</span>
-        </div>
-    </div>
-    <div class="row f-16 gray center">
-        Made with ❤️ by <b>sexjam</b> ;^)
     </div>
 
-    <div class="row f-16 gray center h-14 mt-1">
-        <a class="aa" href="https://github.com/jambtc/btc-price-ticker" target="_blank"><i class="fa fa-github"></i> Btc Price Ticker</a>
-    </div>
-    <div class="row f-16 gray center h-14 mt-1">
-        Length: <span id="arrayLength"></span>
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="jquery.sparkline.min.js"></script>
-    <script type="text/javascript" src="custom.js"></script>
-    <script type="text/javascript" src="handle.js"></script>
-    <script type="text/javascript" src="show.js"></script>
-    <script type="text/javascript" src="btcPriceUpdate.js"></script>
+    <script src="js/btcPriceUpdate.js"></script>
 </body>
 
 </html>
