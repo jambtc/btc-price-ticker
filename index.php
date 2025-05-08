@@ -21,11 +21,11 @@
 </head>
 
 <body>
-    <div class="container text-center p-1">
+    <div class="text-center p-1">
         <div class="main-card shadow text-center">
-            <div class="row">
+            <div class="row mb-4">
                 <div class="col-md-4">
-                    <h1><i class="fab fa-bitcoin text-warning"></i> BTC Price Ticker</h1>
+                    <h5><i class="fab fa-bitcoin text-warning"></i> BTC Price Ticker</h5>
                     <h2 id="priceHolder" class="my-3">$0.00</h2>
                 </div>
                 <div class="col-md-6">
@@ -58,7 +58,7 @@
 
 
 
-            <canvas id="priceChart" class="w-100" style="height: 250px;"></canvas>
+            <canvas id="priceChart" class="w-100" style="height: 150px;"></canvas>
 
 
             <div class="stats-section mt-2">

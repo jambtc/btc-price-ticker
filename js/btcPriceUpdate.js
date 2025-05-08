@@ -8,7 +8,7 @@ let volumeData = 0;
 let initialPrice = null;
 let minPrice = null;
 let maxPrice = null;
-let selectedExchange = null;
+
 
 /**
  * Aggiorna il grafico Chart.js con nuovi dati
@@ -77,16 +77,17 @@ function updateChart(price) {
     }
 }
 
-// Funzione per formattare il numero in K, M, B
+// Funzione per formattare il volume in K, M, B (con 3 decimali)
 function formatVolume(value) {
-    if (value >= 1_000_000_000) {
-        return (value / 1_000_000_000).toFixed(2) + ' B';
-    } else if (value >= 1_000_000) {
-        return (value / 1_000_000).toFixed(2) + ' M';
-    } else if (value >= 1_000) {
-        return (value / 1_000).toFixed(2) + ' K';
+    // console.log('Volume:', value); // Debug
+    if (value >= 1000000000) {
+        return (value / 1000000000).toFixed(1) + ' B';
+    } else if (value >= 1000000) {
+        return (value / 1000000).toFixed(1) + ' M';
+    } else if (value >= 1000) {
+        return (value / 1000).toFixed(1) + ' K';
     } else {
-        return value.toFixed(2);
+        return value.toFixed(1);
     }
 }
 
@@ -111,10 +112,15 @@ function updateMinMaxPrice(price) {
 
 // Funzione aggiornata con volume formattato
 function updateVolumeAndPercentage(newPrice, newVolume) {
-    const valueData = parseFloat(newVolume * newPrice);
+    // Aggiorna solo il volume totale (non il valore in USD)
+    let importo = parseFloat(newVolume * newPrice);
+    if (isNaN(importo)) {
+        importo = 0;
+    }
 
-    volumeData += valueData;
-    document.getElementById('volume').textContent = formatVolume(volumeData) + ' USD';
+    volumeData += parseFloat(importo);
+    document.getElementById('volume').textContent = formatVolume(volumeData) + ' USD'; 
+
 
     // Aggiorna prezzo minimo e massimo
     updateMinMaxPrice(newPrice);
@@ -154,6 +160,14 @@ function addTradeRow(amount, price, type) {
     }
 }
 
+// funzione per eliminare le righe della tabella
+function clearTradeRows() {
+    const container = document.getElementById('tradeRows');
+    while (container.rows.length > 0) {
+        container.deleteRow(0); // Rimuove la prima riga
+    }
+}
+
 
 // Funzione per connettersi al WebSocket dell'exchange selezionato
 function connectWebSocket(exchange, pair) {
@@ -172,6 +186,7 @@ function connectWebSocket(exchange, pair) {
                     channel: `live_trades_${pair}`
                 }
             }));
+            console.log(`Connected to ${exchange} WebSocket.`);
         };
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -184,6 +199,7 @@ function connectWebSocket(exchange, pair) {
         };
     } else if (exchange === 'binance') {
         ws = new WebSocket(`wss://stream.binance.com:9443/ws/${pair}@trade`);
+        console.log(`Connected to ${exchange} WebSocket.`);
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.p) {
@@ -226,13 +242,11 @@ function resetValues() {
     localStorage.removeItem('maxPrice');
     localStorage.removeItem('volumeData');
     localStorage.removeItem('initialPrice');
-    localStorage.removeItem('selectedExchange');
 
     minPrice = null;
     maxPrice = null;
     volumeData = 0;
     initialPrice = null;
-    selectedExchange = null;
 
     document.getElementById('minVal').textContent = 'N/A';
     document.getElementById('maxVal').textContent = 'N/A';
@@ -240,17 +254,34 @@ function resetValues() {
     document.getElementById('percentageChange').textContent = '0%';
 }
 
+// Salva l'exchange selezionato
+function saveSelectedExchange(exchange) {
+    localStorage.setItem('selectedExchange', exchange);
+}
+
+// Carica l'exchange selezionato all'avvio
+function loadSelectedExchange() {
+    const savedExchange = localStorage.getItem('selectedExchange');
+    if (savedExchange) {
+        document.getElementById('exchange_select').value = savedExchange;
+        switchExchange(savedExchange);
+    } else {
+        const initial = $('#exchange_select').val();
+        saveSelectedExchange(initial);
+        switchExchange(initial);
+    }
+}
+
 $(document).ready(function () {
-    const initial = $('#exchange_select').val();
+    loadSelectedExchange();
 
-    selectedExchange = parseFloat(localStorage.getItem('selectedExchange')) || initial;
-
-    switchExchange(selectedExchange);
-    
     $('#exchange_select').on('change', function () {
-        resetValues();
         const selected = $(this).val();
+        saveSelectedExchange(selected);
         switchExchange(selected);
+        // Resetta i valori
+        resetValues();
+        clearTradeRows();
     });
 
     // Carica i valori dal localStorage se esistono
@@ -259,8 +290,7 @@ $(document).ready(function () {
         maxPrice = parseFloat(localStorage.getItem('maxPrice')) || null;
         volumeData = parseFloat(localStorage.getItem('volumeData')) || 0;
         initialPrice = parseFloat(localStorage.getItem('initialPrice')) || null;
-        selectedExchange = parseFloat(localStorage.getItem('selectedExchange')) || null;
-
+        
         // Aggiorna la UI con i valori salvati
         document.getElementById('minVal').textContent = minPrice ? minPrice.toFixed(2) + ' USD' : 'N/A';
         document.getElementById('maxVal').textContent = maxPrice ? maxPrice.toFixed(2) + ' USD' : 'N/A';
