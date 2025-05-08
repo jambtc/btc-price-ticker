@@ -226,7 +226,6 @@ function switchExchange(exchange) {
     priceHistory = [];
     timeLabels = [];
 
-    selectedExchange = exchange;
     localStorage.setItem('selectedExchange', exchange); // Salva l'exchange selezionato
 
     if (exchange === 'binance') {
